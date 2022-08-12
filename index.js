@@ -284,7 +284,7 @@ async function postrender (text, opts = {}) {
   if (!opts.output && !opts.to) return text
 
   if (!('highlight-style' in opts)) opts['highlight-style'] = 'kate'
-  let args = buildArgs(opts, 'highlight-style', 'output', 'pdf-engine', 'resource-path', 'standalone', 'to')
+  let args = buildArgs(opts, 'highlight-style', 'output', 'pdf-engine', 'resource-path', 'standalone', 'to', 'reference-doc')
   let outputExt = opts.output ? path.extname(opts.output) : null
   if (outputExt === '.pdf') opts.standalone = true
 
