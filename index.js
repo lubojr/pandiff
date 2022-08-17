@@ -33,6 +33,9 @@ function postprocess (html) {
   forEachR(document.querySelectorAll('span.math.display'), math => {
     math.innerHTML = '\\[' + math.innerHTML + '\\]'
   })
+  forEachR(document.querySelectorAll('br'), br => {
+    removeNode(br);
+  })
   forEachR(document.querySelectorAll('span.math'), math => {
     let post = math.cloneNode(true)
     removeNodes(math.getElementsByTagName('ins'))
