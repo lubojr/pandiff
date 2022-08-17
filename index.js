@@ -191,7 +191,7 @@ const markdown = [
   '-inline_code_attributes',
   '-link_attributes',
   '-multiline_tables',
-  '-pipe_tables',
+  '+pipe_tables',
   '-simple_tables',
   '-smart'
 ].join('')
@@ -220,8 +220,7 @@ async function render (html, opts = {}) {
   args.push('--wrap=none')
   if (opts.output || opts.to) args.push('--atx-headers')
 
-  let output = await pandoc('-f', 'html+tex_math_single_backslash', '-t', markdown).end(html).toString()
-  output = await pandoc(...args, '-t', markdown).end(output).toString()
+  let output = await pandoc(...args, '-f', 'html+tex_math_single_backslash', '-t', markdown).end(html).toString()
   output = output
     .replace(regex.span.sub, '{~~$1~>$2~~}')
     .replace(regex.span.del, '{--$1--}')
