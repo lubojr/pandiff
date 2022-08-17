@@ -3,7 +3,6 @@ const htmldiff = require('node-htmldiff')
 const {JSDOM} = require('jsdom')
 const {pandoc} = require('nodejs-sh')
 const path = require('path')
-const wordwrap = require('wordwrap')
 
 const forEachR = (a, f) => { for (let i = a.length - 1; i >= 0; i--) f(a[i]) }
 const removeNode = node => node.parentNode.removeChild(node)
@@ -228,26 +227,7 @@ async function render (html, opts = {}) {
     .replace(regex.div.del, '{--$1--}')
     .replace(regex.div.ins, '{++$1++}')
 
-  let {wrap = 72} = opts
-  let lines = []
-  let pre = false
-  for (const line of output.split('\n')) {
-    let lastLineLen = lines.length > 0 ? lines[lines.length - 1].length : 0
-    if (line.startsWith('```')) pre = !pre
-    if (pre || line.startsWith('  [')) {
-      lines.push(line)
-    } else if (line.match(/^[=-]+$/) && lastLineLen > 0) {
-      lines.push(line.slice(0, lastLineLen))
-    } else if (wrap) {
-      for (const wrapped of wordwrap(wrap)(line).split('\n')) {
-        lines.push(wrapped)
-      }
-    } else {
-      lines.push(line)
-    }
-  }
-  let text = lines.join('\n')
-  return postrender(text, opts)
+  return postrender(output, opts)
 }
 
 const criticHTML = text => text
